@@ -4,7 +4,9 @@ export const Title = ({ textSize }) => {
   return (
     <div className="flex">
       <h1
-        className={`text-${textSize} font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-red-500`}
+        className={`${
+          textSize ? `${textSize}` : 'text-8xl'
+        } font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-red-500`}
       >
         QuackBoard
       </h1>
@@ -15,17 +17,17 @@ export const Title = ({ textSize }) => {
 Title.propTypes = {
   //
   textSize: PropTypes.oneOf([
-    'xs',
-    'sm',
-    'base',
-    'lg',
-    'xl',
-    '2xl',
-    '3xl',
-    '4xl',
-    '5xl',
-    '6xl',
-    '7xl',
-    '8xl',
+    'text-xs',
+    'text-sm',
+    'text-base',
+    'text-lg',
+    'text-xl',
+    'text-2xl',
+    'text-3xl',
+    'text-4xl',
+    'text-5xl',
+    'text-6xl',
+    'text-7xl',
+    'text-8xl',
   ]).isRequired,
 };
