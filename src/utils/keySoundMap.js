@@ -1,7 +1,7 @@
 // soundmap of each key on the keyboard
 // it is used to play sound when a key is pressed
 
-export const whiteKeys = {
+export const whiteKeySound = {
   a: 'DuckQuackDoC.mp3',
   s: 'DuckQuackReD.mp3',
   d: 'DuckQuackMiE.mp3',
@@ -11,7 +11,7 @@ export const whiteKeys = {
   j: 'DuckQuackSiB.mp3',
 };
 
-export const blackKeys = {
+export const blackKeySound = {
   w: 'DuckQuackDiRe.mp3',
   e: 'DuckQuackDiMi.mp3',
   r: 'DuckQuackDiFa.mp3',
