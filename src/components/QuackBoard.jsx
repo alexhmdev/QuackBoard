@@ -5,10 +5,11 @@ export const QuackBoard = () => {
   return (
     <div className="relative">
       {/* Black tiles row */}
-      <div className="flex gap-[25px] absolute left-[50%] -translate-x-[50%]">
+      <div className="flex gap-[25px] absolute left-[10.8%]">
         <BlackTile keyName="w" />
         <BlackTile keyName="e" />
-        <BlackTile keyName="r" />
+      </div>
+      <div className="flex gap-[25px] absolute left-[53.7%]">
         <BlackTile keyName="t" />
         <BlackTile keyName="y" />
         <BlackTile keyName="u" />
