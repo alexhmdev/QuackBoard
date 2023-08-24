@@ -5,13 +5,13 @@ export const useRecordings = create(
   persist(
     (set, get) => ({
       recordings: [],
-      setRecordings: (recording) =>
-        set({ recordings: { ...get().recordings }, recording }),
       addRecording: (recording) =>
-        set({ recordings: [...get().recordings, recording] }),
-      removeRecording: (index) =>
+        set({ recordings: [recording, ...get().recordings] }),
+      removeRecording: (name) =>
         set({
-          recordings: get().recordings.filter((_, i) => i !== index),
+          recordings: get().recordings.filter(
+            (recording) => recording.name !== name
+          ),
         }),
       clearRecordings: () => set({ recordings: [] }),
     }),

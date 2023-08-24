@@ -25,9 +25,9 @@ export const Quack = () => {
   }, []);
 
   return (
-    <>
+    <div className="flex-col items-center">
       <div className="relative mb-4">
-        <Title />
+        <Title text="QuackBoard" />
         {isPlaying || keyPlayed ? (
           <img
             src="/images/DuckQuack.avif"
@@ -43,21 +43,27 @@ export const Quack = () => {
         )}
       </div>
       <section className="flex flex-col gap-4 mb-4">
-        <div className="flex justify-between  items-center">
-          <h2 className="font-bold text-2xl">Show Controls</h2>
-          <ToggleSwitch checked={showControls} setChecked={setShowControls} />
-        </div>
+        <div className="flex flex-col gap-4 self-center">
+          <div className="flex justify-between  items-center">
+            <h2 className="font-bold text-2xl">Show Controls</h2>
+            <ToggleSwitch checked={showControls} setChecked={setShowControls} />
+          </div>
 
-        <div className="flex justify-between items-center">
-          <h2 className="font-bold text-2xl">Show Chords</h2>
-          <ToggleSwitch checked={showChords} setChecked={setShowChords} />
+          <div className="flex justify-between items-center">
+            <h2 className="font-bold text-2xl">Show Note Names</h2>
+            <ToggleSwitch checked={showChords} setChecked={setShowChords} />
+          </div>
+          <QuackBoard />
         </div>
-        <QuackBoard />
+        <div className="mt-4 flex flex-col gap-4">
+          <div>
+            <Recorder />
+          </div>
+          <div>
+            <Recordings />
+          </div>
+        </div>
       </section>
-      <section className="flex flex-col gap-4">
-        <Recorder />
-        <Recordings />
-      </section>
-    </>
+    </div>
   );
 };

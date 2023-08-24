@@ -1,9 +1,19 @@
 import { useRecordings } from '../store/recordingsStore';
 import { useStore } from '../store/store';
+import {
+  IconPlayerRecordFilled,
+  IconPlayerStopFilled,
+  IconPlayerPlayFilled,
+  IconDeviceFloppy,
+  IconTrash,
+  IconShare,
+} from '@tabler/icons-react';
 import toast from 'react-hot-toast';
+
 export const Recorder = () => {
   const {
     isRecording,
+    isRecordingPlaying,
     setIsRecording,
     playRecordedKeys,
     clearKeysPressed,
@@ -22,7 +32,7 @@ export const Recorder = () => {
   const saveRecording = () => {
     addRecording({
       keysPressed,
-      name: `${Date.now()}-recording.quack`,
+      name: `${Date.now()}.quack`,
     });
     clearKeysPressed();
     toast('Recording saved!');
@@ -35,9 +45,13 @@ export const Recorder = () => {
   const shareRecording = () => {
     // we share the recording trough a url that contains the keys pressed
     // we use the keys pressed to play the recording
-    const url = new URL(window.location.href);
+    // /shared?keysPressed=base64
+    const url = new URL(window.location.origin + '/shared');
     // we add the keys pressed to the url as a query parameter called keysPressed as base64
-    const keysPressedBase64 = btoa(keysPressed.join(','));
+    // we parse to string the keys pressed and we join them with a comma
+    const keysPressedBase64 = btoa(
+      keysPressed.map((k) => JSON.stringify(k)).join(',')
+    );
     url.searchParams.set('keysPressed', keysPressedBase64);
     navigator.clipboard.writeText(url.toString());
     // we alert the user that the url has been copied to the clipboard
@@ -56,55 +70,42 @@ export const Recorder = () => {
           disabled={keysPressed.length > 0 && !isRecording}
         >
           {isRecording ? (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-player-stop-filled"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M17 4h-10a3 3 0 0 0 -3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3 -3v-10a3 3 0 0 0 -3 -3z"
-                strokeWidth="0"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <IconPlayerStopFilled size={24} />
           ) : (
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="icon icon-tabler icon-tabler-player-record-filled"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              strokeWidth="2"
-              stroke="currentColor"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path
-                d="M8 5.072a8 8 0 1 1 -3.995 7.213l-.005 -.285l.005 -.285a8 8 0 0 1 3.995 -6.643z"
-                strokeWidth="0"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <IconPlayerRecordFilled size={24} />
           )}
         </button>
         {keysPressed.length > 0 && !isRecording ? (
-          <div className="flex gap-4 items-center">
-            <button onClick={playRecording} className="">
+          <div className="md:flex grid grid-cols-2 gap-4 items-center">
+            <button
+              onClick={playRecording}
+              className="flex gap-1 bg-blue-500 p-2 rounded-lg disabled:opacity-50"
+              disabled={isRecordingPlaying}
+            >
               Play
+              <IconPlayerPlayFilled size={24} />
             </button>
-            <button onClick={saveRecording}>Save</button>
-            <button onClick={dismissRecording}>Dismiss</button>
-            <button onClick={shareRecording}>Share</button>
+            <button
+              onClick={saveRecording}
+              className="flex gap-1 bg-green-400 p-2 rounded-lg"
+            >
+              Save
+              <IconDeviceFloppy size={24} />
+            </button>
+            <button
+              onClick={dismissRecording}
+              className="flex gap-1 bg-red-500 p-2 rounded-lg"
+            >
+              Dismiss
+              <IconTrash size={24} />
+            </button>
+            <button
+              onClick={shareRecording}
+              className="flex gap-1 bg-blue-400 p-2 rounded-lg"
+            >
+              Share
+              <IconShare size={24} />
+            </button>
           </div>
         ) : null}
       </div>
