@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useKeyPress } from '../../hooks';
-import { whiteKeySoundMap, playSound } from '../../utils';
+import { whiteKeySoundMap, playSound, loadSound } from '../../utils';
 import { useStore } from '../../store/store';
-import { useMemo } from 'react';
 
-export const WhiteTile = ({ keyName }) => {
+export const WhiteTile = ({ keyName, chord }) => {
   const tileRef = useRef(null);
   const [whiteTilePressed, setWhiteTilePressed] = useState(false);
   // handle keypress using useKeyPress hook
   const keyPressed = useKeyPress(keyName);
 
-  const { setIsPlaying } = useStore((state) => state);
+  const { setIsPlaying, showChords, showControls } = useStore((state) => state);
 
-  const tileSound = new Audio(`/sounds/${whiteKeySoundMap[keyName]}`);
+  useEffect(() => {
+    loadSound(keyName, whiteKeySoundMap[keyName]);
+  }, [keyName]);
 
   const handleClick = () => {
-    playSound(tileSound);
+    playSound(keyName);
     setIsPlaying(true);
     setWhiteTilePressed(true);
     setTimeout(() => {
@@ -28,12 +28,12 @@ export const WhiteTile = ({ keyName }) => {
 
   useEffect(() => {
     if (keyPressed) {
-      playSound(tileSound);
+      playSound(keyName);
       setIsPlaying(true);
     } else {
       setIsPlaying(false);
     }
-  }, [keyPressed, setIsPlaying]);
+  }, [keyPressed, setIsPlaying, keyName]);
 
   return (
     <button
@@ -46,7 +46,8 @@ export const WhiteTile = ({ keyName }) => {
       onClick={handleClick}
     >
       <div className="flex flex-col justify-end h-full select-none">
-        <div>{keyName}</div>
+        {showControls ? <div>{keyName}</div> : null}
+        {showChords ? <div className="text-xs">{chord}</div> : null}
       </div>
     </button>
   );
@@ -54,4 +55,5 @@ export const WhiteTile = ({ keyName }) => {
 
 WhiteTile.propTypes = {
   keyName: PropTypes.string.isRequired,
+  chord: PropTypes.string.isRequired,
 };

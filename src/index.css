@@ -9,3 +9,10 @@
     src: url('/fonts/BigApple3PM.ttf');
   }
 }
+
+/* Avoid mobile devices focus background */
+button,
+input {
+  outline: none;
+  -wekit-tap-highlight-color: transparent;
+}

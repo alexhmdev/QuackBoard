@@ -1,22 +1,23 @@
 import { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { blackKeySoundMap, playSound } from '../../utils';
+import { blackKeySoundMap, loadSound, playSound } from '../../utils';
 import { useKeyPress } from '../../hooks';
 import { useStore } from '../../store/store';
-import { useMemo } from 'react';
 
-export const BlackTile = ({ keyName }) => {
+export const BlackTile = ({ keyName, chord }) => {
   const tileRef = useRef(null);
   const [blackTilePressed, setBlackTilePressed] = useState(false);
   const keyPressed = useKeyPress(keyName);
 
-  const { setIsPlaying } = useStore((state) => state);
+  const { setIsPlaying, showChords, showControls } = useStore((state) => state);
 
-  // use useMemo to memoize the tileSound
-  const tileSound = new Audio(`/sounds/${blackKeySoundMap[keyName]}`);
+  useEffect(() => {
+    loadSound(keyName, blackKeySoundMap[keyName]);
+  }, [keyName]);
 
   const handleClick = () => {
-    playSound(tileSound);
+    playSound(keyName);
+
     setIsPlaying(true);
     setBlackTilePressed(true);
     setTimeout(() => {
@@ -27,14 +28,14 @@ export const BlackTile = ({ keyName }) => {
 
   useEffect(() => {
     if (keyPressed) {
-      playSound(tileSound);
+      playSound(keyName);
       setBlackTilePressed(true);
       setIsPlaying(true);
     } else {
       setIsPlaying(false);
       setBlackTilePressed(false);
     }
-  }, [keyPressed, setIsPlaying]);
+  }, [keyPressed, setIsPlaying, keyName]);
 
   return (
     <button
@@ -45,7 +46,8 @@ export const BlackTile = ({ keyName }) => {
       onClick={handleClick}
     >
       <div className="flex flex-col justify-center h-full select-none">
-        <div>{keyName}</div>
+        {showControls ? <div>{keyName}</div> : null}
+        {showChords ? <div className="text-xs">{chord}</div> : null}
       </div>
     </button>
   );
@@ -53,4 +55,5 @@ export const BlackTile = ({ keyName }) => {
 
 BlackTile.propTypes = {
   keyName: PropTypes.string.isRequired,
+  chord: PropTypes.string.isRequired,
 };
