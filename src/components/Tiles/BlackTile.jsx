@@ -9,15 +9,25 @@ export const BlackTile = ({ keyName, chord }) => {
   const [blackTilePressed, setBlackTilePressed] = useState(false);
   const keyPressed = useKeyPress(keyName);
 
-  const { setIsPlaying, showChords, showControls } = useStore((state) => state);
+  const {
+    setIsPlaying,
+    showChords,
+    showControls,
+    keyPlayed,
+    isRecording,
+    isRecordingPlaying,
+    recordKeysPressed,
+  } = useStore((state) => state);
 
   useEffect(() => {
     loadSound(keyName, blackKeySoundMap[keyName]);
   }, [keyName]);
 
   const handleClick = () => {
+    if (isRecording) {
+      recordKeysPressed(keyName);
+    }
     playSound(keyName);
-
     setIsPlaying(true);
     setBlackTilePressed(true);
     setTimeout(() => {
@@ -28,6 +38,9 @@ export const BlackTile = ({ keyName, chord }) => {
 
   useEffect(() => {
     if (keyPressed) {
+      if (isRecording) {
+        recordKeysPressed(keyName);
+      }
       playSound(keyName);
       setBlackTilePressed(true);
       setIsPlaying(true);
@@ -39,15 +52,18 @@ export const BlackTile = ({ keyName, chord }) => {
 
   return (
     <button
-      className={`w-[25px] text-white text-center capitalize border-2 border-gray-500 rounded-lg  ${
-        blackTilePressed ? 'h-[5.5rem] bg-[#222]' : 'h-24 bg-black'
+      className={`w-[25px] pb-1 text-white text-center capitalize border-2 border-gray-500 rounded-lg  ${
+        blackTilePressed || keyPlayed === keyName
+          ? 'h-[5.5rem] bg-[#222]'
+          : 'h-24 bg-black'
       }`}
       ref={tileRef}
       onClick={handleClick}
+      disabled={isRecordingPlaying}
     >
-      <div className="flex flex-col justify-center h-full select-none">
-        {showControls ? <div>{keyName}</div> : null}
-        {showChords ? <div className="text-xs">{chord}</div> : null}
+      <div className="flex flex-col justify-end h-full select-none">
+        {showControls ? <div>({keyName})</div> : null}
+        {showChords ? <div className="text-sm">{chord}</div> : null}
       </div>
     </button>
   );

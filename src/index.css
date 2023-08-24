@@ -10,9 +10,7 @@
   }
 }
 
-/* Avoid mobile devices focus background */
 button,
 input {
-  outline: none !important;
-  -wekit-tap-highlight-color: transparent !important;
+  outline: none;
 }

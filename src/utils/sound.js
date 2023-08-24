@@ -1,4 +1,6 @@
-const sounds = {};
+import { blackKeySoundMap, whiteKeySoundMap } from './keySoundMap';
+
+export const sounds = {};
 
 /**
  * Load a sound into the library.
@@ -20,7 +22,7 @@ export function loadSound(key, source) {
 export function playSound(key) {
   const sound = sounds[key];
   if (sound) {
-    sound.currentTime = 0.25;
+    sound.currentTime = 0.23;
     sound.play();
   }
 }

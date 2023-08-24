@@ -10,13 +10,24 @@ export const WhiteTile = ({ keyName, chord }) => {
   // handle keypress using useKeyPress hook
   const keyPressed = useKeyPress(keyName);
 
-  const { setIsPlaying, showChords, showControls } = useStore((state) => state);
+  const {
+    setIsPlaying,
+    showChords,
+    showControls,
+    keyPlayed,
+    isRecording,
+    isRecordingPlaying,
+    recordKeysPressed,
+  } = useStore((state) => state);
 
   useEffect(() => {
     loadSound(keyName, whiteKeySoundMap[keyName]);
   }, [keyName]);
 
   const handleClick = () => {
+    if (isRecording) {
+      recordKeysPressed(keyName);
+    }
     playSound(keyName);
     setIsPlaying(true);
     setWhiteTilePressed(true);
@@ -28,26 +39,32 @@ export const WhiteTile = ({ keyName, chord }) => {
 
   useEffect(() => {
     if (keyPressed) {
+      if (isRecording) {
+        recordKeysPressed(keyName);
+      }
       playSound(keyName);
       setIsPlaying(true);
+      setWhiteTilePressed(true);
     } else {
       setIsPlaying(false);
+      setWhiteTilePressed(false);
     }
   }, [keyPressed, setIsPlaying, keyName]);
 
   return (
     <button
       className={`w-[50px]  text-center capitalize border-2 border-gray-500 rounded-lg ${
-        whiteTilePressed || keyPressed
+        whiteTilePressed || keyPlayed === keyName
           ? 'bg-gray-200 h-[195px]'
           : 'bg-white h-[200px]'
       }`}
       ref={tileRef}
       onClick={handleClick}
+      disabled={isRecordingPlaying}
     >
       <div className="flex flex-col justify-end h-full select-none">
-        {showControls ? <div>{keyName}</div> : null}
-        {showChords ? <div className="text-xs">{chord}</div> : null}
+        {showChords ? <div className="text-sm">{chord}</div> : null}
+        {showControls ? <div>({keyName})</div> : null}
       </div>
     </button>
   );

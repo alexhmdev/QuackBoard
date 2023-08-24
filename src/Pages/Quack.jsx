@@ -1,10 +1,17 @@
 import { useEffect } from 'react';
-import { QuackBoard, Title, ToggleSwitch } from '../components';
+import {
+  QuackBoard,
+  Recorder,
+  Recordings,
+  Title,
+  ToggleSwitch,
+} from '../components';
 import { useStore } from '../store/store';
 
 export const Quack = () => {
   const {
     isPlaying,
+    keyPlayed,
     showChords,
     setShowChords,
     showControls,
@@ -21,7 +28,7 @@ export const Quack = () => {
     <>
       <div className="relative mb-4">
         <Title />
-        {isPlaying ? (
+        {isPlaying || keyPlayed ? (
           <img
             src="/images/DuckQuack.avif"
             alt="duck"
@@ -35,7 +42,7 @@ export const Quack = () => {
           />
         )}
       </div>
-      <section className="flex flex-col gap-4">
+      <section className="flex flex-col gap-4 mb-4">
         <div className="flex justify-between  items-center">
           <h2 className="font-bold text-2xl">Show Controls</h2>
           <ToggleSwitch checked={showControls} setChecked={setShowControls} />
@@ -45,8 +52,11 @@ export const Quack = () => {
           <h2 className="font-bold text-2xl">Show Chords</h2>
           <ToggleSwitch checked={showChords} setChecked={setShowChords} />
         </div>
-
         <QuackBoard />
+      </section>
+      <section className="flex flex-col gap-4">
+        <Recorder />
+        <Recordings />
       </section>
     </>
   );
