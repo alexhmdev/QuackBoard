@@ -1,5 +1,3 @@
-import { blackKeySoundMap, whiteKeySoundMap } from './keySoundMap';
-
 export const sounds = {};
 
 /**
@@ -20,9 +18,22 @@ export function loadSound(key, source) {
  * @returns {void}
  */
 export function playSound(key) {
+  /**
+   * @type {HTMLAudioElement}
+   * @description The sound to play.
+   */
   const sound = sounds[key];
   if (sound) {
-    sound.currentTime = 0.23;
-    sound.play();
+    // if the user is on safari Mac or any device, we need to change the current time of the sound
+
+    if (navigator.userAgent.indexOf('Safari') != -1) {
+      // alert('Safari');
+      // sound.currenTime = 0;
+      console.log('Safari');
+      sound.play();
+    } else {
+      sound.currentTime = 0.23;
+      sound.play();
+    }
   }
 }
