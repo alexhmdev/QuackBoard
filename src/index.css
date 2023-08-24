@@ -13,6 +13,6 @@
 /* Avoid mobile devices focus background */
 button,
 input {
-  outline: none;
-  -wekit-tap-highlight-color: transparent;
+  outline: none !important;
+  -wekit-tap-highlight-color: transparent !important;
 }
