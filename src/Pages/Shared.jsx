@@ -4,6 +4,7 @@ import { QuackBoard, Title } from '../components';
 import { useStore } from '../store/store';
 import { stringToObjectArray } from '../utils';
 import { IconPlayerPlayFilled } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 
 export const Shared = () => {
   const {
@@ -53,6 +54,12 @@ export const Shared = () => {
         Play
         <IconPlayerPlayFilled size={24} />
       </button>
+      <Link
+        className="flex bg-yellow-300 p-2 rounded-lg disabled:opacity-50"
+        to="/quack"
+      >
+        Go to QuackBoard
+      </Link>
     </div>
   );
 };

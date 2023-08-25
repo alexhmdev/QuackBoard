@@ -4,6 +4,8 @@
 
 Welcome to QuackBoard this is a funny project that I made for the [Kurojam](https://kurojam.com) 2023.
 
+> NOTE: Currently we have experiencing some problems with the audio on Safari, we are figuring out how to solve it.
+
 ## What is QuackBoard?
 
 QuackBoard is a funny keyboard with a duck theme, it uses duck sounds instead of the normal keyboard sounds.
