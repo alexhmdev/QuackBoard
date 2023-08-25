@@ -5,6 +5,7 @@ import { useStore } from '../store/store';
 import { stringToObjectArray } from '../utils';
 import { IconPlayerPlayFilled } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 export const Shared = () => {
   const {
@@ -25,18 +26,33 @@ export const Shared = () => {
     // we hide the controls and chords
     setShowControls(false);
     setShowChords(false);
+
     // we get the keys pressed from the query params
     const keysPressed = query.get('keysPressed');
-    // we decode the keys pressed from base64
-    const decodedKeysPressed = atob(keysPressed);
-    // we split the objects pressed by comma
-    const decodedKeysPressedArray = stringToObjectArray(decodedKeysPressed);
-    console.log(decodedKeysPressedArray);
-    // we set the keys pressed to the state
-    setSharedSong(decodedKeysPressedArray);
+    if (!keysPressed) return;
+    try {
+      // we decode the keys pressed from base64
+
+      const decodedKeysPressed = atob(keysPressed);
+      // we split the objects pressed by comma
+      const decodedKeysPressedArray = stringToObjectArray(decodedKeysPressed);
+      console.log(decodedKeysPressedArray);
+      // we set the keys pressed to the state
+      setSharedSong(decodedKeysPressedArray);
+    } catch (error) {
+      if (error instanceof DOMException) {
+        toast('Invalid song!');
+      } else {
+        toast('Something went wrong!');
+      }
+    }
   }, []);
 
   const playSong = () => {
+    if (!sharedSong.length) {
+      toast('No song to play!');
+      return;
+    }
     playRecordedKeys(sharedSong);
   };
 
