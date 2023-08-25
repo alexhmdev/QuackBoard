@@ -25,12 +25,12 @@ export function playSound(key) {
   const sound = sounds[key];
   if (sound) {
     // if the user is on safari Mac or any device, we need to change the current time of the sound
-    if (navigator.userAgent.indexOf('Safari') != -1) {
-      // alert('Safari');
-      sound.play();
-    } else {
-      sound.currentTime = 0.23;
-      sound.play();
-    }
+    // if (navigator.userAgent.indexOf('Safari') != -1) {
+    //   // alert('Safari');
+    //   sound.play();
+    // } else {
+    sound.play();
+    sound.currentTime = 0.23;
+    // }
   }
 }
