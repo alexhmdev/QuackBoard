@@ -8,7 +8,10 @@ function App() {
     <main className="h-screen w-full flex flex-col justify-center items-center">
       <FollowMouse />
       <Toaster
-        toastOptions={{ className: 'bg-[#222] text-white', duration: 1500 }}
+        toastOptions={{
+          duration: 1500,
+          style: { background: '#222', color: '#fff' },
+        }}
       />
       <Routes>
         <Route path="/" element={<Home />} />
