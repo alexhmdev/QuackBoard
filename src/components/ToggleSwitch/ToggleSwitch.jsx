@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import ReactGA from 'react-ga4';
 import './ToggleSwitch.css';
 
 export const ToggleSwitch = ({ checked, setChecked }) => {
@@ -8,7 +9,14 @@ export const ToggleSwitch = ({ checked, setChecked }) => {
         className="toggle"
         type="checkbox"
         checked={checked}
-        onChange={() => setChecked(!checked)}
+        onChange={() => {
+          setChecked(!checked);
+          ReactGA.event({
+            category: 'Toggle',
+            action: 'Toggle switch',
+            label: checked ? 'off' : 'on',
+          });
+        }}
       />
       <span className="slider"></span>
       <span className="card-side"></span>

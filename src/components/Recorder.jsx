@@ -9,6 +9,7 @@ import {
   IconShare,
 } from '@tabler/icons-react';
 import toast from 'react-hot-toast';
+import ReactGA from 'react-ga4';
 
 export const Recorder = () => {
   const {
@@ -23,10 +24,19 @@ export const Recorder = () => {
 
   const handleClick = () => {
     setIsRecording(!isRecording);
+    ReactGA.event({
+      category: 'Recorder',
+      action: 'Record',
+      label: isRecording ? 'Stop' : 'Start',
+    });
   };
 
   const playRecording = () => {
     playRecordedKeys(keysPressed);
+    ReactGA.event({
+      category: 'Recorder',
+      action: 'Play',
+    });
   };
 
   const saveRecording = () => {
@@ -36,6 +46,10 @@ export const Recorder = () => {
     });
     clearKeysPressed();
     toast('Recording saved!');
+    ReactGA.event({
+      category: 'Recorder',
+      action: 'Save',
+    });
   };
 
   const dismissRecording = () => {
